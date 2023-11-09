@@ -1,5 +1,7 @@
 # 配置文件忽略 默认架构自行调整
 config.py
+.idea/*
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -9,8 +9,8 @@ def get_proxy():
 
 # 爬虫的基础类
 class crawaller_base():
-    def __init__(self,index_url):
-        self.index_url = index_url
+    def __init__(self):
+        self.index_url = ""
         self.timeout = 5
         self.headers = {
             'User-Agent': UserAgent_Base().random()
