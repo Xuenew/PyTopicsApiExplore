@@ -3,12 +3,17 @@ import requests
 
 from config import proxies
 
+
 # 获得代理函数
 def get_proxy():
     return proxies
 
+
 # 爬虫的基础类
-class crawaller_base():
+class Crawler_Base:
+    """
+    热榜爬虫基础类
+    """
     def __init__(self):
         self.index_url = ""
         self.timeout = 5
@@ -22,15 +27,18 @@ class crawaller_base():
     def crawls_getresponse(self):
         res = requests.get(url=self.index_url,headers=self.headers,proxies=self.proxy,timeout=self.timeout)
         return res
+
     # 解析
     def crawls_parse(self):
         pass
+
     # 最终统一调用的函数
     def crawls_run(self):
         return self.crawls_parse()
-    
+
+
 # 关于 User_Agent_Pc
-class UserAgent_Base():
+class UserAgent_Base:
 
     def __init__(self):
         self.ua = [
@@ -163,9 +171,10 @@ class UserAgent_Base():
         "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)",
     ]
 
-
     def random(self):
         return random.choice(self.ua)
+
+
 if __name__ == "__main__":
     UserAgent = UserAgent_Base().random()
     print(get_proxy())
