@@ -18,6 +18,14 @@ HOT_FUNCTION_UNIT = [
                             "board_subtitle": "热搜榜",
                             "board_path": "crawls.weibo.weibo",
                         },
+                        {
+                            "board_type": 3,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "shaoshupai",
+                            "board_title": "少数派",
+                            "board_subtitle": "热门文章",
+                            "board_path": "crawls.shaoshupai.shaoshupai",
+                        },
                     ]
 
 
