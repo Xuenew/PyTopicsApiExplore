@@ -64,6 +64,94 @@ HOT_FUNCTION_UNIT = [
                             "board_subtitle": "贴吧热议榜",
                             "board_path": "crawls.tieba.tieba_reyi",
                         },
+                        {
+                            "board_type": 9,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "pengpai",
+                            "board_title": "澎湃新闻",
+                            "board_subtitle": "热榜",
+                            "board_path": "crawls.thepaper.thepaper",
+                        },
+                        {
+                            "board_type": 10,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "jinritoutiao",
+                            "board_title": "今日头条",
+                            "board_subtitle": "热榜",
+                            "board_path": "crawls.toutiao.toutiao",
+                        },
+                        {
+                            "board_type": 11,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "36kr",
+                            "board_title": "今日头条",
+                            "board_subtitle": "热榜",
+                            "board_path": "crawls.kr36.kr36",
+                        },
+                        {
+                            "board_type": 12,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "juejin",
+                            "board_title": "掘金",
+                            "board_subtitle": "热榜",
+                            "board_path": "crawls.juejin.juejin",
+                        },
+                        {
+                            "board_type": 13,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "tenxunxinwen",
+                            "board_title": "腾讯新闻",
+                            "board_subtitle": "热点榜",
+                            "board_path": "crawls.newsqq.newsqq",
+                        },
+                        {
+                            "board_type": 14,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "wangyixinwen",
+                            "board_title": "网易新闻",
+                            "board_subtitle": "热点榜",
+                            "board_path": "crawls.netease.netease",
+                        },
+                        {
+                            "board_type": 15,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "yingxionglianmeng",
+                            "board_title": "英雄联盟",
+                            "board_subtitle": "更新公告",
+                            "board_path": "crawls.lol.lol",
+                        },
+                        {
+                            "board_type": 16,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "yuanshen",
+                            "board_title": "原神",
+                            "board_subtitle": "更新公告",
+                            "board_path": "crawls.genshin.genshin",
+                        },
+                        {
+                            "board_type": 17,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "yuanshen",
+                            "board_title": "原神",
+                            "board_subtitle": "最新消息",
+                            "board_path": "crawls.genshin.genshin",
+                        },
+                        {
+                            "board_type": 18,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "weixindushu",
+                            "board_title": "微信读书",
+                            "board_subtitle": "飙升榜",
+                            "board_path": "crawls.weread.weread",
+                        },
+                        {
+                            "board_type": 19,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "kuaishou",
+                            "board_title": "快手",
+                            "board_subtitle": "热榜",
+                            "board_path": "crawls.kuaishou.kuaishou",
+                        },
                     ]
 
 PROXIES = {
