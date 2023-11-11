@@ -1,12 +1,11 @@
 import random
 import requests
+import pymysql
+import redis
 
 from config import proxies
-
-
-# 获得代理函数
-def get_proxy():
-    return proxies
+from config import MYSQL_DB
+from config import REDIS_DB
 
 
 # 爬虫的基础类
@@ -176,6 +175,86 @@ class UserAgent_Base:
 
     def random(self):
         return random.choice(self.ua)
+
+
+# 获得代理函数
+def get_proxy():
+    return proxies
+
+# 数据库基本操作
+def mysql_normal(sql='', method='', db="", sql_list=""):  # 测试版本 注意注释的问题
+    """
+    :param sql  需要执行的sql语句
+    :param method   返回的方法 是只执行还是
+    :param db  连接的数据库的库名
+    :param sql_list 需要执行的语句
+    :return DO 成功执行返回1 错误返回0
+            BACKALL 成功执行 返回数据 错误返回空
+            BACKONE 成功执行 返回数据 错误返回空
+    """
+    conn = pymysql.connect(host=MYSQL_DB["host"], port=MYSQL_DB["port"], user=MYSQL_DB["user"],
+                           passwd=MYSQL_DB["passwd"], db=str(db),
+                           charset='utf8mb4')
+    cursor = conn.cursor()
+    if method == "fetchall":
+        try:
+            cursor.execute(sql)
+            conn.commit()
+            fetchall = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return fetchall
+        except  Exception as e:
+            print(e)
+            cursor.close()
+            conn.close()
+            return ()
+    elif method == "fetchone":
+        try:
+            cursor.execute(sql)
+            conn.commit()
+            fetchall = cursor.fetchone()
+            cursor.close()
+            conn.close()
+            return fetchall
+        except  Exception as e:
+            print(e)
+            cursor.close()
+            conn.close()
+            return ()
+    elif method == "insert":
+        try:
+            cursor.execute(sql, list(sql_list))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return 1
+        except  Exception as e:
+            print(e)
+            cursor.close()
+            conn.close()
+            return 0
+    elif method == "update":
+        try:
+            cursor.execute(sql)
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return 1
+        except  Exception as e:
+            print(e)
+            cursor.close()
+            conn.close()
+            return 0
+    cursor.close()
+    conn.close()
+
+# redis 存储
+def redis_normal(db="0", task_name="", decode_responses=True):
+
+
+    con = redis.Redis(host=REDIS_DB["host"], port=REDIS_DB["port"], decode_responses=decode_responses, db=db, password=REDIS_DB["passwd"])
+    con.close()
 
 
 if __name__ == "__main__":
