@@ -23,7 +23,7 @@ def back_you_want(choose_board_type=""):
                 if each["board_status"] == -1:
                     return {
                             "status": -1,
-                            "erro_msg": "平台下架有问题目前",
+                            "error_msg": "平台下架有问题目前",
                             "get_time":datetime.datetime.now().strftime("%Y-%m-%d %H:%M:00"),
                             "result_info": []
                             }
@@ -31,7 +31,7 @@ def back_you_want(choose_board_type=""):
                     back_info = importlib.import_module(each["board_path"]).Crawls().crawls_run()
                     return {
                         "status": 200,
-                        "erro_msg": "ok",
+                        "error_msg": "ok",
                         "get_time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:00"),
                         "result_info": result_info.append([dict(each_dic, **each) for each_dic in back_info])
                     }
@@ -42,7 +42,12 @@ def back_you_want(choose_board_type=""):
                 # print(info)
                 result_info.append([dict(each_dic, **each) for each_dic in back_info])  # 返回的内容是个list还需要在迭代的合并
 
-    return result_info
+    return {
+            "status": 200,
+            "error_msg": "ok",
+            "get_time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:00"),
+            "result_info": result_info
+            }
 
 
 if __name__ == '__main__':
