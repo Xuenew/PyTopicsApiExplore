@@ -13,24 +13,11 @@ class Crawls(Crawler_Base):
     def __init__(self):
         super(Crawls, self).__init__()
         self.index_url = "https://top.baidu.com/board?tab=realtime"
-        # self.headers = {
-        #     'authority': 'www.zhihu.com',
-        #     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        #     'accept-language': 'zh-CN,zh;q=0.9',
-        #     'cache-control': 'no-cache',
-        #     'pragma': 'no-cache',
-        #     'sec-fetch-dest': 'document',
-        #     'sec-fetch-mode': 'navigate',
-        #     'sec-fetch-site': 'none',
-        #     'sec-fetch-user': '?1',
-        #     'upgrade-insecure-requests': '1',
-        #     'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
-        #     # 'user-agent': UserAgent_Base().random(),
-        # }
+
 
     def crawls_parse(self):
         """
-        解析知乎排行榜
+        解析百度排行榜
         """
         pattern = r'<!--s-data:(.*?)-->'
         # print(self.crawls_getresponse().text)
