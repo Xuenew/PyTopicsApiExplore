@@ -20,12 +20,14 @@ class Crawler_Base:
         self.headers = {
             'User-Agent': UserAgent_Base().random()
         }
+        self.cookies = {}
         self.proxy_support = None
         self.proxy = get_proxy() if self.proxy_support else {}
 
     # 请求函数 默认get 有其他可以重写
     def crawls_getresponse(self):
-        res = requests.get(url=self.index_url,headers=self.headers,proxies=self.proxy,timeout=self.timeout)
+        res = requests.get(url=self.index_url, headers=self.headers, proxies=self.proxy,
+                           timeout=self.timeout, cookies=self.cookies)
         return res
 
     # 解析

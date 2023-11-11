@@ -26,6 +26,14 @@ HOT_FUNCTION_UNIT = [
                             "board_subtitle": "热门文章",
                             "board_path": "crawls.shaoshupai.shaoshupai",
                         },
+                        {
+                            "board_type": 4,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "zhihu",
+                            "board_title": "知乎",
+                            "board_subtitle": "知乎热榜",
+                            "board_path": "crawls.shaoshupai.shaoshupai",
+                        },
                     ]
 
 
@@ -35,7 +43,7 @@ def back_you_want():
     返回需要爬取信息
     """
     for each in HOT_FUNCTION_UNIT:
-        if each["board_status"]==1:
+        if each["board_status"] == 1:
             info = importlib.import_module(each["board_path"]).Crawls().crawls_run()
             print(info)
     return ""

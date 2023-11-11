@@ -18,7 +18,7 @@ class Crawls(Crawler_Base):
         result_list = []
         for each in self.crawls_getresponse().json()['data']['realtime']:
             hot_dic = dict()
-            hot_dic["h_id"] = each.get("mid","")
+            hot_dic["h_id"] = each.get("mid", "")
             hot_dic["title"] = each.get("word", "")
             hot_dic["desc"] = each.get("note", "")
             hot_dic["pic"] = each.get("pic", "")
