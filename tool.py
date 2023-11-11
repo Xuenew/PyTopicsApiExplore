@@ -23,10 +23,11 @@ class Crawler_Base:
         self.cookies = {}
         self.proxy_support = None
         self.proxy = get_proxy() if self.proxy_support else {}
+        self.data = {}
 
     # 请求函数 默认get 有其他可以重写
     def crawls_getresponse(self):
-        res = requests.get(url=self.index_url, headers=self.headers, proxies=self.proxy,
+        res = requests.get(url=self.index_url, headers=self.headers, proxies=self.proxy, data=self.data,
                            timeout=self.timeout, cookies=self.cookies)
         return res
 

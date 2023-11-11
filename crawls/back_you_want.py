@@ -32,7 +32,31 @@ HOT_FUNCTION_UNIT = [
                             "board_name": "zhihu",
                             "board_title": "知乎",
                             "board_subtitle": "知乎热榜",
-                            "board_path": "crawls.shaoshupai.shaoshupai",
+                            "board_path": "crawls.zhihu.zhihu",
+                        },
+                        {
+                            "board_type": 5,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "baidu",
+                            "board_title": "百度",
+                            "board_subtitle": "百度热榜",
+                            "board_path": "crawls.baidu.baidu",
+                        },
+                        {
+                            "board_type": 6,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "douyin_hot",
+                            "board_title": "抖音",
+                            "board_subtitle": "抖音热榜",
+                            "board_path": "crawls.douyin.douyin_hot",
+                        },
+                        {
+                            "board_type": 7,
+                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
+                            "board_name": "douyin_music_hot",
+                            "board_title": "抖音",
+                            "board_subtitle": "抖音热歌榜",
+                            "board_path": "crawls.douyin.douyin_music_hot",
                         },
                     ]
 
