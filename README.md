@@ -13,3 +13,8 @@ config配置文件忽略不上传，保留config_bs文件字段，注意实际�
     "result_info": [[],[]]
 }
 ```
+
+```sh
+*/5 * * * * /bin/bash /home/temp/PyTopicsApiExplore/hot_reload.sh
+*/10 * * * * /bin/bash /home/temp/PyTopicsApiExplore/hot_api_crontab.sh
+```

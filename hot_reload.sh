@@ -10,6 +10,6 @@ if [[ $g_pull_str =~ "Already up to date" ]]
 then
     echo "git 正常不需要热更新！！！$begain_time"
 else
-    /usr/local/bin/uwsgi --reload /home/temp/uwsgi.pid
+    /home/temp/env_pytopicsapiexplore/bin/uwsgi --reload /home/temp/uwsgi.pid
     echo "已经完成热更新！！$begain_time"
 fi
