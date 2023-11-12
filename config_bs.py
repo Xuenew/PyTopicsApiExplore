@@ -170,14 +170,16 @@ MYSQL_DB = {
             "passwd": "123456",
             "db": "test",
             "charset": "utf8",
+            "info_table_name": "board_info",  # 存储热榜内容
+            "platform_table_name": "board_platform",  # 存储热榜平台信息
             }
 
 REDIS_DB = {
             "host": "127.0.0.1",
-            "port": 3306,
+            "port": 6379,
             "passwd": "123456",
-            "db": "test",
-
+            "db": "0",
+            "keyname_HotBoardAllNew": "HotBoardAllNew",
             }
 
 proxy = "http://%(user)s:%(pass)s@%(host)s:%(port)s" % {

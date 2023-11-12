@@ -3,6 +3,13 @@ from tool import mysql_normal
 """
 第一次执行的时候，会初始化mysql和redis
 """
+
+# 创建一个数据库
+MYSQL_DATABASE_CREAT_SQL = """
+                        CREATE DATABASE hot_board CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+"""
+
 # 创建热榜平台表
 MYSQL_TABLE_CREAT_SQL1 = """
                         CREATE TABLE `board_platform` (
@@ -35,19 +42,27 @@ MYSQL_TABLE_CREAT_SQL2 = """
 """
 
 
-def test_mysql():
+def test_mysql():  # 检查系统mysql
     pass
 
 
-def test_redis():
+def test_redis():  # 检查系统redis
     pass
 
 
-def mysql_init():
+def test_dir():  # 检查系统必要路径
     pass
 
 
-def redis_init():
+def mysql_init():  # 创建mysql部署需要的表和库
+    pass
+
+
+def redis_init():  # 创建redis部署需要
+    pass
+
+
+def dir_init():  # 创建系统部署需要的路径
     pass
 
 

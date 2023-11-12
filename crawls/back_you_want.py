@@ -29,19 +29,34 @@ def back_you_want(choose_board_type: int = 0):
                             }
                 else:
                     back_info = importlib.import_module(each["board_path"]).Crawls().crawls_run()
-                    # result_info.append([dict(each_dic, **each) for each_dic in back_info])
+                    result_info.append(
+                                        {
+                                            "board_type": each["board_type"],
+                                            "board_title": each["board_title"],
+                                            "board_subtitle": each["board_subtitle"],
+                                            "result": [dict(each_dic, **each) for each_dic in back_info]
+                                        }
+                                       )
                     return {
                         "status": 200,
                         "error_msg": "ok",
                         "get_time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:00"),
-                        "result_info":[dict(each_dic, **each) for each_dic in back_info]
+                        # "result_info":[dict(each_dic, **each) for each_dic in back_info]
+                        "result_info": result_info
                     }
     else:  # 默认全拿一遍
         for each in HOT_FUNCTION_UNIT:
             if each["board_status"] == 1:
                 back_info = importlib.import_module(each["board_path"]).Crawls().crawls_run()
                 # print(info)
-                result_info.append([dict(each_dic, **each) for each_dic in back_info])  # 返回的内容是个list还需要在迭代的合并
+                result_info.append(
+                                    {
+                                        "board_type": each["board_type"],
+                                        "board_title": each["board_title"],
+                                        "board_subtitle": each["board_subtitle"],
+                                        "result": [dict(each_dic, **each) for each_dic in back_info]
+                                    }
+                                   )  # 返回的内容是个list还需要在迭代的合并
 
     return {
             "status": 200,
