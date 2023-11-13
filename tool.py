@@ -183,7 +183,7 @@ def get_proxy():
 
 
 # 数据库基本操作
-def mysql_normal(sql='', method='', db="", sql_list=None):  # 测试版本 注意注释的问题
+def mysql_normal(sql='', method='do', db="mysql", sql_list=None):  # 测试版本 注意注释的问题
     """
     :param sql  需要执行的sql语句
     :param method   返回的方法 是只执行还是
@@ -237,7 +237,7 @@ def mysql_normal(sql='', method='', db="", sql_list=None):  # 测试版本 注�
             cursor.close()
             conn.close()
             return 0
-    elif method == "update":
+    elif method == "update" or method == "do":
         try:
             cursor.execute(sql)
             conn.commit()
@@ -258,6 +258,16 @@ def redis_normal(db="0", decode_responses=True):
 
     con = redis.Redis(host=REDIS_DB["host"], port=REDIS_DB["port"], decode_responses=decode_responses, db=db, password=REDIS_DB["passwd"])
 
+    return con
+
+# redis 存储
+def redis_normal_get_now(db="0", decode_responses=True):
+
+    con = redis.Redis(host=REDIS_DB["host"], port=REDIS_DB["port"], decode_responses=decode_responses, db=db, password=REDIS_DB["passwd"])
+    con.command_getkeys()
+    sql = "select * from {} where =1"
+    keys_name= ""
+    con.hgetall()
     return con
 
 

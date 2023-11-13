@@ -144,7 +144,7 @@ http://127.0.0.1/board_new?board_type=2
 
 ## 💻部署(方式一 ubuntu20.04)
 
-> 💡注意：python3.8+版本
+> 💡注意：python3.8+版本 前提mysql8.0 和redis都已经安装好了哈
 
 -  安装服务以及建立路径
 ```bash
@@ -160,7 +160,11 @@ pip install uwsgi
 ```
 - 安装依赖
 ```bash
-/home/temp/env_pytopicsapiexplore/pip install -r /home/temp/PyTopicsApiExplore/rerequirment.txt
+/home/temp/env_pytopicsapiexplore/bin/pip install -r /home/temp/PyTopicsApiExplore/rerequirment.txt
+```
+- 初始化数据库 每次热更新也会执行
+```bash
+/home/temp/env_pytopicsapiexplore/bin/python /home/temp/PyTopicsApiExplore/utils/PyTopicsApiExploreInit.py
 ```
 - 部署定时任务
 ```bash
