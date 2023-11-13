@@ -84,7 +84,7 @@ HOT_FUNCTION_UNIT = [
                             "board_type": 11,
                             "board_status": 1,  # 1 正常 -1 异常或暂时有问题
                             "board_name": "36kr",
-                            "board_title": "今日头条",
+                            "board_title": "36kr",
                             "board_subtitle": "热榜",
                             "board_path": "crawls.kr36.kr36",
                         },
@@ -129,14 +129,6 @@ HOT_FUNCTION_UNIT = [
                             "board_path": "crawls.genshin.genshin",
                         },
                         {
-                            "board_type": 17,
-                            "board_status": 1,  # 1 正常 -1 异常或暂时有问题
-                            "board_name": "yuanshen",
-                            "board_title": "原神",
-                            "board_subtitle": "最新消息",
-                            "board_path": "crawls.genshin.genshin",
-                        },
-                        {
                             "board_type": 18,
                             "board_status": 1,  # 1 正常 -1 异常或暂时有问题
                             "board_name": "weixindushu",
@@ -152,7 +144,7 @@ HOT_FUNCTION_UNIT = [
                             "board_subtitle": "热榜",
                             "board_path": "crawls.kuaishou.kuaishou",
                         },
-                    ]
+]
 
 PROXIES = {
             # 代理IP和端口
