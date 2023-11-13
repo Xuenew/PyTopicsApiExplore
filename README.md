@@ -1,5 +1,5 @@
 <div align="center">
-<a href="" alt="logo" ><img src="./logo/logo.jpg" width="120"/></a>
+<a href="" alt="logo" ><img src="https://github.com/Xuenew/PyTopicsApiExplore/logo/logo.jpg" width="120"/></a>
 </div>
 <h1 align="center">PyTopicsApiExplore(HOT API)</h1>
 
