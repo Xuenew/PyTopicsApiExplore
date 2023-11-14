@@ -2,12 +2,18 @@ import random
 import requests
 import pymysql
 import redis
+from datetime import timedelta, datetime
 
 from config import proxies
 from config import MYSQL_DB
 from config import REDIS_DB
 
-
+# 接口返回的基础
+Base_Back_Result = {
+    "status": 200,  # 状态码
+    "err_msg": "",  # 错误信息
+    "res_inf": "",  # 各种类型
+}
 # 爬虫的基础类
 class Crawler_Base:
     """
@@ -182,6 +188,13 @@ def get_proxy():
     return proxies
 
 
+# 获取时间函数
+def get_x_hours_ago(hours, rformat="%Y-%m-%d %H:%M:%S"):
+    now = datetime.now()
+    seven_hours_ago = now - timedelta(hours=hours)
+    return seven_hours_ago.strftime(rformat)
+
+
 # 数据库基本操作
 def mysql_normal(sql='', method='do', db="mysql", sql_list=None):  # 测试版本 注意注释的问题
     """
@@ -201,7 +214,7 @@ def mysql_normal(sql='', method='do', db="mysql", sql_list=None):  # 测试版�
     cursor = conn.cursor()
     if method == "fetchall":
         try:
-            cursor.execute(sql)
+            cursor.execute(sql, sql_list)
             conn.commit()
             fetchall = cursor.fetchall()
             cursor.close()
@@ -214,7 +227,7 @@ def mysql_normal(sql='', method='do', db="mysql", sql_list=None):  # 测试版�
             return ()
     elif method == "fetchone":
         try:
-            cursor.execute(sql)
+            cursor.execute(sql, sql_list)
             conn.commit()
             fetchall = cursor.fetchone()
             cursor.close()
@@ -239,7 +252,7 @@ def mysql_normal(sql='', method='do', db="mysql", sql_list=None):  # 测试版�
             return 0
     elif method == "update" or method == "do":
         try:
-            cursor.execute(sql)
+            cursor.execute(sql, sql_list)
             conn.commit()
             cursor.close()
             conn.close()
@@ -253,6 +266,24 @@ def mysql_normal(sql='', method='do', db="mysql", sql_list=None):  # 测试版�
     conn.close()
 
 
+# 获取热点区间位次变化
+def get_hot_title_ranking(title: str, board_type, hours: int = 24, rformat="%Y-%m-%d %H:%M:%S"):
+    """
+    :param title:
+    :param board_type: 榜单的ID 必填
+    :param hours: 默认24小时内
+    :return:
+    """
+    xtime = get_x_hours_ago(hours=hours)
+    # print(xtime)
+    sql = "select index_num,get_time from {} where title=%s and get_time>%s and board_type=%s".format(MYSQL_DB["info_table_name"])
+    fetchall = mysql_normal(sql,method="fetchall", db=MYSQL_DB["db"], sql_list=(
+                                                            pymysql.converters.escape_string(title),
+                                                            pymysql.converters.escape_string(xtime), board_type))
+    # print(fetchall)
+    result_lis = [[i[0], i[1].strftime(rformat)] for i in fetchall]
+    # print(result_lis)
+    return result_lis
 # redis 存储
 def redis_normal(db="0", decode_responses=True):
 
@@ -260,17 +291,51 @@ def redis_normal(db="0", decode_responses=True):
 
     return con
 
-# redis 存储
-def redis_normal_get_now(db="0", decode_responses=True):
+
+# redis 获取当前redis里热榜信息，通过平台表获取
+def redis_normal_get_now_db(db=REDIS_DB["db"], board_type_list: list = None, decode_responses=True):
+    """
+    :param db: 默认db0
+    :param board_type_list: 传递
+    :param decode_responses: 默认转
+    :return: [{},{}]
+    """
 
     con = redis.Redis(host=REDIS_DB["host"], port=REDIS_DB["port"], decode_responses=decode_responses, db=db, password=REDIS_DB["passwd"])
-    con.command_getkeys()
-    sql = "select * from {} where =1"
-    keys_name= ""
-    con.hgetall()
-    return con
+    result_lis = []
+    if board_type_list:
+        for board_type in board_type_list:
+            board_dic = {}
+            board_inf = con.hgetall(str(board_type))
+            board_dic["board_type"] = board_type
+            board_dic["board_info"] = board_inf
+            if board_inf:  # 可能会有没有的平台
+                result_lis.append(board_dic)
+    else:
+        sql = "select board_type from {} where board_status=1".format(MYSQL_DB["platform_table_name"])
+        board_type_list = [each[0] for each in mysql_normal(sql,method="fetchall",db=MYSQL_DB["db"])]
+        print(board_type_list)
+        # print(con.hgetall("2"))
+        for board_type in board_type_list:
+            board_dic = {}
+            board_inf = con.hgetall(str(board_type))
+            board_dic["board_type"] = board_type
+            board_dic["board_info"] = board_inf
+            if board_inf:  # 可能会有没有的平台
+                result_lis.append(board_dic)
+
+    con.close()
+    return result_lis
 
 
 if __name__ == "__main__":
+    # get_hot_title_ranking("冬天就在雪地里相爱", board_type=19, hours=3)
+    # exit()
+    # time_ = get_x_hours_ago(5)
+    # print(time_)
+    # exit()
+    result_lis = redis_normal_get_now_db()
+    print(result_lis)
+    exit()
     UserAgent = UserAgent_Base().random()
     print(get_proxy())

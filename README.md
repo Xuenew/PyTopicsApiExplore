@@ -7,7 +7,7 @@
 
 [English待完成](./README.en.md) | [简体中文](./README.md)
 
-🚀「PyTopicsApiExplore」是一个开箱即用的高性能异步[抖音](https://www.douyin.com)|[Bilibili](https://www.bilibili.com)等热榜数据爬取工具，支持API调用，定时存储数据库。
+🚀「PyTopicsApiExplore」是一个开箱即用的[抖音](https://www.douyin.com)|[Bilibili](https://www.bilibili.com)等热榜数据爬取工具，支持API调用，定时存储数据库。
 
 
 </div>
@@ -17,19 +17,14 @@
 
 ## 👻介绍
 
-本项目是基于 [Flask](https://github.com/pallets/flask)，[Mysql 8.0]()，[Redis 5.0]()，热榜数据爬取工具，并通过Web端（V2.0）实现在线RSS，热点排名，热点数据爬取API。你可以自己部署或改造本项目实现更多功能。
+本项目是基于 [Flask](https://github.com/pallets/flask)，[ECharts](https://github.com/apache/echarts)，[Mysql 8.0]()，[Redis 5.0]()，热榜数据爬取工具，并通过Web端（V2.0）实现在线RSS，热点排名，热点数据爬取API。你可以自己部署或改造本项目实现更多功能。
 
 *一些简单的运用场景：*
 
 *减少各个平台停留的时间，进行数据分析 配合本项目API实现自建等.....*
 
 
-🛸基于本项目的其他仓库
-
-- [建设中](https://github.com/Xuenew/PyTopicsApiExplore)
-
-
-## ⚗️技术栈
+## 🛸技术栈
 
 * [manage.py](https://github.com/Xuenew/PyTopicsApiExplore/manage.py) - [Flask](https://github.com/pallets/flask)
 
@@ -54,28 +49,37 @@ http://127.0.0.1/board_new?board_type=2
 ## 💡项目文件结构
 
 ```
-.   
+.
 ├── LICENSE
+├── PyTopicsApiExploreInit.py
 ├── README.md
 ├── config.py
 ├── config_bs.py
 ├── crawls
-│  ├── back_you_want.py
-│  ├── baidu （众多类似平台）
-│  │  └── baidu.py
-│  ├── crawls_instructions_sample.py
+│     ├── back_you_want.py
+│     ├── baidu
+│     │     └── baidu.py
+│     ├── bilibili
+│           └── bilibili.py
+│ 
 ├── hot_api_crontab.sh
 ├── hot_reload.sh
 ├── hotapi_crontab.py
 ├── logo
+│     └── logo.jpg
 ├── manage.py
 ├── requirment.txt
+├── static
+│     └── js
+│         ├── clipboard.min.js
+│         ├── echarts.min.js
+│         └── jquery.min.js
+├── templates
+│     └── index_ranking.html
 ├── tool.py
-├──PyTopicsApiExploreInit.py
 ├── utils
-│  └── getWereadID.py
+│     └── getWereadID.py
 └── uwsgi.ini
-
 ```
 
 ## ✨功能：
@@ -136,7 +140,16 @@ https://api.bilibili.com/x/web-interface/ranking/v2
 
 - 热榜数据(实时获取，ID以文档的为准)
 ```http request
-http://127.0.0.1/board_new?board_type=2
+http://127.0.0.1/board_new?board_type=2&back_format=json
+```
+- 热榜数据db(redis实时获取，ID以文档的为准)
+```http request
+http://127.0.0.1/board_new_db?board_type_lis=1,2,4&back_format=json
+```
+- 单条热榜数据排名变化
+```http request
+http://127.0.0.1/board_hot_ranking?hot_title=冬天就在雪地里相爱&hot_type=19&hours=16&back_format=html
+http://127.0.0.1/board_hot_ranking?hot_title=冬天就在雪地里相爱&hot_type=19&hours=16&back_format=json
 ```
 
 

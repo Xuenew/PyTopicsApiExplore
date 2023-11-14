@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>PyTopicsApiExplore_Ranking</title>
+    <!-- 引入刚刚下载的 ECharts 文件 -->
+    <script src="/static/js/echarts.min.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js" integrity="sha512-EmNxF3E6bM0Xg1zvmkeYD3HDBeGxtsG92IxFt1myNZhXdCav9MzvuH/zNMBU1DmIPN6njrhX1VTbqdJxQ2wHDg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<style>
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 设置div的高度为视口高度，使div完全居中 */
+  }
+</style>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div id="main" class="center"></div>
+    <script type="text/javascript">
+
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+      // 指定图表的配置项和数据
+      var option = {
+    title : {
+        text: '热榜排名变化: --->>> {{hot_title}}',
+        subtext: 'PyTopicsApiExplore'
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+          axisLine:{ // 隐藏X轴
+                show: false
+            },
+          axisTick:{ // 隐藏刻度线
+                show: false
+            },
+            data : {{time_data | safe}}
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+          inverse: true,
+            axisLabel : {
+                formatter: '{value} index'
+            }
+        }
+    ],
+    series : [
+        {
+            name:'最高排名',
+            type:'line',
+            data:{{info_data|safe}},
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        }
+    ]
+};
+
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>
