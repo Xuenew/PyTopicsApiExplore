@@ -284,12 +284,28 @@ def get_hot_title_ranking(title: str, board_type, hours: int = 24, rformat="%Y-%
     result_lis = [[i[0], i[1].strftime(rformat)] for i in fetchall]
     # print(result_lis)
     return result_lis
+
+
 # redis 存储
 def redis_normal(db="0", decode_responses=True):
 
     con = redis.Redis(host=REDIS_DB["host"], port=REDIS_DB["port"], decode_responses=decode_responses, db=db, password=REDIS_DB["passwd"])
 
     return con
+
+
+# 获取单独某个key下的某个键值
+def redis_noremal_gethk_get(board_type, task_keyname="board_title", db=REDIS_DB["db"]):
+    """
+    :param board_type: 榜单的ID
+    :param task_keyname: 榜单里的key
+    :param db: 默认0
+    :return:
+    """
+    con = redis_normal(db=db)
+    key_name = con.hget(board_type, task_keyname)
+    con.close()
+    return key_name
 
 
 # redis 获取当前redis里热榜信息，通过平台表获取
@@ -301,7 +317,7 @@ def redis_normal_get_now_db(db=REDIS_DB["db"], board_type_list: list = None, dec
     :return: [{},{}]
     """
 
-    con = redis.Redis(host=REDIS_DB["host"], port=REDIS_DB["port"], decode_responses=decode_responses, db=db, password=REDIS_DB["passwd"])
+    con = redis_normal(db=db)
     result_lis = []
     if board_type_list:
         for board_type in board_type_list:
@@ -329,6 +345,8 @@ def redis_normal_get_now_db(db=REDIS_DB["db"], board_type_list: list = None, dec
 
 
 if __name__ == "__main__":
+    print(redis_noremal_gethk_get(board_type=1, task_keyname="board_title"))
+    exit()
     # get_hot_title_ranking("冬天就在雪地里相爱", board_type=19, hours=3)
     # exit()
     # time_ = get_x_hours_ago(5)

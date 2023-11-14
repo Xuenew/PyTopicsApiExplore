@@ -1,5 +1,5 @@
 <div align="center">
-<a href="" alt="logo" ><img src="https://github.com/Xuenew/PyTopicsApiExplore/logo/logo.jpg" width="120"/></a>
+<a href="" alt="logo" ><img src="./logo/logo.jpg" width="120" ></a>
 </div>
 <h1 align="center">PyTopicsApiExplore(HOT API)</h1>
 
@@ -140,19 +140,17 @@ https://api.bilibili.com/x/web-interface/ranking/v2
 
 - 热榜数据(实时获取，ID以文档的为准)
 ```http request
-http://127.0.0.1/board_new?board_type=2&back_format=json
+http://127.0.0.1:5000/board_new?board_type=2&back_format=json
 ```
 - 热榜数据db(redis实时获取，ID以文档的为准)
 ```http request
-http://127.0.0.1/board_new_db?board_type_lis=1,2,4&back_format=json
+http://127.0.0.1:5000/board_new_db?board_type_lis=1,2,4&back_format=json
 ```
 - 单条热榜数据排名变化
 ```http request
-http://127.0.0.1/board_hot_ranking?hot_title=冬天就在雪地里相爱&hot_type=19&hours=16&back_format=html
-http://127.0.0.1/board_hot_ranking?hot_title=冬天就在雪地里相爱&hot_type=19&hours=16&back_format=json
+http://127.0.0.1:5000/board_hot_ranking?hot_title=冬天就在雪地里相爱&hot_type=19&hours=16&back_format=html
+http://127.0.0.1:5000/board_hot_ranking?hot_title=冬天就在雪地里相爱&hot_type=19&hours=16&back_format=json
 ```
-
-
 
 
 ## 💻部署(方式一 ubuntu20.04 默认安装好了python 3.8)

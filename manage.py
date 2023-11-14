@@ -12,6 +12,7 @@ from crawls.back_you_want import back_you_want
 from tool import redis_normal_get_now_db  # 获取redis当前的内容
 from tool import get_hot_title_ranking  # 获取榜单位次区间变化
 from tool import Base_Back_Result
+from tool import redis_noremal_gethk_get # 获取key里单独键的value
 
 app = Flask(__name__)
 
@@ -119,12 +120,12 @@ def board_hot_ranking():
     # 返回的信息
 
     if back_format == "json":
-        print(Back_Resut)
         return json.dumps(Back_Resut)
     else:
         res = Back_Resut["res_inf"]
+        board_title = redis_noremal_gethk_get(board_type=hot_type)
         return render_template("index_ranking.html", result=Back_Resut, hot_title=hot_title,
-                               time_data=[i[1] for i in res], info_data=[i[0] for i in res])
+                               board_title=board_title, time_data=[i[1] for i in res], info_data=[i[0] for i in res])
 
 
 if __name__ == '__main__':
