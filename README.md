@@ -71,8 +71,8 @@ http://127.0.0.1/board_new?board_type=2
 ├── manage.py
 ├── requirment.txt
 ├── tool.py
+├──PyTopicsApiExploreInit.py
 ├── utils
-│  ├── PyTopicsApiExploreInit.py
 │  └── getWereadID.py
 └── uwsgi.ini
 
@@ -142,7 +142,7 @@ http://127.0.0.1/board_new?board_type=2
 
 
 
-## 💻部署(方式一 ubuntu20.04)
+## 💻部署(方式一 ubuntu20.04 默认安装好了python 3.8)
 
 > 💡注意：python3.8+版本 前提mysql8.0 和redis都已经安装好了哈
 
@@ -164,7 +164,7 @@ pip install uwsgi
 ```
 - 初始化数据库 每次热更新也会执行
 ```bash
-/home/temp/env_pytopicsapiexplore/bin/python /home/temp/PyTopicsApiExplore/utils/PyTopicsApiExploreInit.py
+/home/temp/env_pytopicsapiexplore/bin/python /home/temp/PyTopicsApiExplore/PyTopicsApiExploreInit.py
 ```
 - 部署定时任务
 ```bash
@@ -219,12 +219,14 @@ flask --app manage.py run -h0.0.0.0 -p5000
 [![](https://github.com/otll.png?size=50)](https://github.com/otll)
 [![](https://github.com/L-dongjianing.png?size=50)](https://github.com/L-dongjianing)
 
-## 免责声明
+## ⚠️ 免责声明
 
 - 本项目提供的 `API` 仅供开发者进行技术研究和开发测试使用。使用该 `API` 获取的信息仅供参考，不代表本项目对信息的准确性、可靠性、合法性、完整性作出任何承诺或保证。本项目不对任何因使用该 `API` 获取信息而导致的任何直接或间接损失负责。本项目保留随时更改 `API` 接口地址、接口协议、接口参数及其他相关内容的权利。本项目对使用者使用 `API` 的行为不承担任何直接或间接的法律责任
 - 本项目并未与相关信息提供方建立任何关联或合作关系，获取的信息均来自公开渠道，如因使用该 `API` 获取信息而产生的任何法律责任，由使用者自行承担
 - 本项目对使用 `API` 获取的信息进行了最大限度的筛选和整理，但不保证信息的准确性和完整性。使用 `API` 获取信息时，请务必自行核实信息的真实性和可靠性，谨慎处理相关事项
 - 本项目保留对 `API` 的随时更改、停用、限制使用等措施的权利。任何因使用本 `API` 产生的损失，本项目不负担任何赔偿和责任
+- 使用者在任何情况下均不得将本项目的作者、贡献者或其他相关方与使用者的使用行为联系起来，或要求其对使用者使用本项目所产生的任何损失或损害负责。
+- 使用者在使用本项目的代码和功能时，必须自行研究相关法律法规，并确保其使用行为合法合规。任何因违反法律法规而导致的法律责任和风险，均由使用者自行承担
 
 
 [MIT License](https://github.com/Xuenew/PyTopicsApiExplore/LICENSE)
