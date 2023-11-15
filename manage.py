@@ -54,7 +54,7 @@ def board_new():
         return json.dumps(Back_Resut)
 
     else:
-        return "template"
+        return render_template("board_new_db.html", blocks=Back_Resut["res_inf"])
 
 @app.route('/board_new_db', methods=['get', 'post'])  # 返回实时的当前的热点信息从redis
 def board_new_db():
@@ -71,9 +71,9 @@ def board_new_db():
 
     # 返回的信息块 都用 Base_Back_Result模版返回
     Back_Resut = Base_Back_Result
-    if board_type_lis: # 必填
+    if board_type_lis:  # 必填
         try:
-            Back_Resut["res_inf"] = redis_normal_get_now_db(board_type_lis.split(","))
+            Back_Resut["res_inf"] = redis_normal_get_now_db(board_type_list=board_type_lis.split(","))
         except Exception as e:
             Back_Resut["status"] = -1
             Back_Resut["err_msg"] = str(e)
@@ -85,7 +85,7 @@ def board_new_db():
     if back_format == "json":
         return json.dumps(Back_Resut)
     else:
-        return "template"
+        return render_template("board_new_db.html", blocks=Back_Resut["res_inf"])
 
 
 @app.route('/board_hot_ranking', methods=['get', 'post'])  # 返回实时的当前的热点信息从redis

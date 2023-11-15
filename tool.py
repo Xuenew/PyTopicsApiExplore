@@ -1,3 +1,4 @@
+import json
 import random
 import requests
 import pymysql
@@ -324,6 +325,7 @@ def redis_normal_get_now_db(db=REDIS_DB["db"], board_type_list: list = None, dec
             board_dic = {}
             board_inf = con.hgetall(str(board_type))
             board_dic["board_type"] = board_type
+            board_inf["result"] = json.loads(board_inf["result"])
             board_dic["board_info"] = board_inf
             if board_inf:  # 可能会有没有的平台
                 result_lis.append(board_dic)
@@ -336,6 +338,7 @@ def redis_normal_get_now_db(db=REDIS_DB["db"], board_type_list: list = None, dec
             board_dic = {}
             board_inf = con.hgetall(str(board_type))
             board_dic["board_type"] = board_type
+            board_inf["result"] = json.loads(board_inf["result"])
             board_dic["board_info"] = board_inf
             if board_inf:  # 可能会有没有的平台
                 result_lis.append(board_dic)
@@ -347,13 +350,17 @@ def redis_normal_get_now_db(db=REDIS_DB["db"], board_type_list: list = None, dec
 if __name__ == "__main__":
     print(redis_noremal_gethk_get(board_type=1, task_keyname="board_title"))
     exit()
+
     # get_hot_title_ranking("冬天就在雪地里相爱", board_type=19, hours=3)
     # exit()
+
     # time_ = get_x_hours_ago(5)
     # print(time_)
     # exit()
-    result_lis = redis_normal_get_now_db()
-    print(result_lis)
-    exit()
-    UserAgent = UserAgent_Base().random()
-    print(get_proxy())
+
+    # result_lis = redis_normal_get_now_db()
+    # print(result_lis)
+    # exit()
+
+    # UserAgent = UserAgent_Base().random()
+    # print(get_proxy())

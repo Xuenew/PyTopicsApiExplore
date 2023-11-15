@@ -139,19 +139,21 @@ https://api.bilibili.com/x/web-interface/ranking/v2
 ***API演示：***
 
 - 热榜数据(实时获取，ID以文档的为准)
-```http request
+```text
 http://127.0.0.1:5000/board_new?board_type=2&back_format=json
 ```
+![img.png](logo/board_new_cut.png)
 - 热榜数据db(redis实时获取，ID以文档的为准)
-```http request
+```text
 http://127.0.0.1:5000/board_new_db?board_type_lis=1,2,4&back_format=json
 ```
+![img.png](logo/board_new_db_cut.png)
 - 单条热榜数据排名变化
-```http request
+```text
 http://127.0.0.1:5000/board_hot_ranking?hot_title=冬天就在雪地里相爱&hot_type=19&hours=16&back_format=html
 http://127.0.0.1:5000/board_hot_ranking?hot_title=冬天就在雪地里相爱&hot_type=19&hours=16&back_format=json
 ```
-
+![img.png](logo/board_hot_rankinghtml_cut.png)
 
 ## 💻部署(方式一 ubuntu20.04 默认安装好了python 3.8)
 
