@@ -99,17 +99,17 @@
 	                    <div class="tab" role="tabpanel">
 	                        <!-- Nav tabs -->
 	                        <ul class="nav nav-tabs" role="tablist">
-                                {% for block in blocks %}
-	                                <li role="presentation active"><a href="#{{block.board_info.board_title}}-{{block.board_info.board_subtitle}}" role="tab" data-toggle="tab">{{block.board_info.board_title}}-{{block.board_info.board_subtitle}}</a></li>
+                                {% for block in blocks.result_info %}
+	                                <li role="presentation active"><a href="#{{block.board_title}}-{{block.board_subtitle}}" role="tab" data-toggle="tab">{{block.board_title}}-{{block.board_subtitle}}</a></li>
 	                            {% endfor %}
                             </ul>
 	                        <!-- Tab panes -->
 	                        <div class="tab-content tabs">
-								{% for block in blocks %}
-	                            <div role="tabpanel" class="tab-pane fade in active" id="{{block.board_info.board_title}}-{{block.board_info.board_subtitle}}">
-	                                <h3>{{block.board_info.board_title}}-{{block.board_info.board_subtitle}}</h3>
+								{% for block in blocks.result_info %}
+	                            <div role="tabpanel" class="tab-pane fade in active" id="{{block.board_title}}-{{block.board_subtitle}}">
+	                                <h3>{{block.board_title}}-{{block.board_subtitle}}</h3>
                                     <ul>
-                                        {% for hot in block.board_info.result %}
+                                        {% for hot in block.result %}
                                             <li><a href="{{ hot.url }}">{{ hot.title }}</a></li>
 
 										    <p>{{ hot.index }}</p>

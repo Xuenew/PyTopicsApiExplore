@@ -54,7 +54,7 @@ def board_new():
         return json.dumps(Back_Resut)
 
     else:
-        return render_template("board_new_db.html", blocks=Back_Resut["res_inf"])
+        return render_template("board_new.html", blocks=Back_Resut["res_inf"])
 
 @app.route('/board_new_db', methods=['get', 'post'])  # 返回实时的当前的热点信息从redis
 def board_new_db():
