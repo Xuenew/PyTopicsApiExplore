@@ -13,8 +13,10 @@ from tool import redis_normal_get_now_db  # 获取redis当前的内容
 from tool import get_hot_title_ranking  # 获取榜单位次区间变化
 from tool import Base_Back_Result
 from tool import redis_noremal_gethk_get # 获取key里单独键的value
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/')
