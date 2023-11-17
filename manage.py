@@ -43,7 +43,7 @@ def board_new():
         back_format = request.args.get("back_format", "json")
 
     # 返回的信息块 都用 Base_Back_Result模版返回
-    Back_Resut = Base_Back_Result
+    Back_Resut = Base_Back_Result.copy()
     try:
         Back_Resut["res_inf"] = back_you_want(choose_board_type=int(board_type))
     except Exception as e:
@@ -70,12 +70,14 @@ def board_new_db():
     else:
         board_type_lis = request.args.get("board_type_lis", 0)
         back_format = request.args.get("back_format", "json")
-
     # 返回的信息块 都用 Base_Back_Result模版返回
-    Back_Resut = Base_Back_Result
-    if board_type_lis:  # 必填
+    Back_Resut = Base_Back_Result.copy()
+    if board_type_lis:  # 必填 "0"的情况
         try:
-            Back_Resut["res_inf"] = redis_normal_get_now_db(board_type_list=board_type_lis.split(","))
+            if board_type_lis == "0":
+                Back_Resut["res_inf"] = redis_normal_get_now_db(board_type_list=[])
+            else:
+                Back_Resut["res_inf"] = redis_normal_get_now_db(board_type_list=board_type_lis.split(","))
         except Exception as e:
             Back_Resut["status"] = -1
             Back_Resut["err_msg"] = str(e)
@@ -108,7 +110,7 @@ def board_hot_ranking():
         back_format = request.args.get("back_format", "json")
 
     # 返回的信息块 都用 Base_Back_Result模版返回
-    Back_Resut = Base_Back_Result
+    Back_Resut = Base_Back_Result.copy()
     if hot_type and hot_title:
         # print(hot_title)
         try:

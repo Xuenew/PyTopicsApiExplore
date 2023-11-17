@@ -5,8 +5,10 @@ import pymysql
 from crawls.back_you_want import back_you_want
 from tool import mysql_normal
 from tool import redis_normal
+from tool import get_x_hours_ago
 from config import MYSQL_DB
 from config import REDIS_DB
+from config import DELETE_TIME_DAYS
 
 """
 10分钟更新一次
@@ -26,6 +28,16 @@ def save_to_mysql(result_list,get_time_):  # 保存到数据库
                 pymysql.converters.escape_string(each_platform_lis["url"]),
                 pymysql.converters.escape_string(each_platform_lis["mobileUrl"]),
                 get_time_]))
+    return True
+
+
+def delet_to_mysql():  # 定时删除数据库的数据
+    get_time_ = get_x_hours_ago(hours=DELETE_TIME_DAYS)
+
+    sql = "delete from {} where get_time<%s".format(
+        MYSQL_DB["info_table_name"],
+    )
+    status = mysql_normal(sql=sql, method="do", db=MYSQL_DB["db"],sql_list=tuple([get_time_]))
     return True
 
 
@@ -65,6 +77,7 @@ def run():  # 执行函数
 
     save_to_mysql(result_list, get_time_)
     save_to_redis(result_list, get_time_)
+    delet_to_mysql()  # 定时删除
 
 
 if __name__ == '__main__':

@@ -146,6 +146,9 @@ HOT_FUNCTION_UNIT = [
                         },
 ]
 
+# 定时删除的时间
+DELETE_TIME_DAYS = 15 * 24
+
 PROXIES = {
             # 代理IP和端口
             "proxyHost": "",

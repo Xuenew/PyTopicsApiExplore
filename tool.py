@@ -332,7 +332,7 @@ def redis_normal_get_now_db(db=REDIS_DB["db"], board_type_list: list = None, dec
     else:
         sql = "select board_type from {} where board_status=1".format(MYSQL_DB["platform_table_name"])
         board_type_list = [each[0] for each in mysql_normal(sql,method="fetchall",db=MYSQL_DB["db"])]
-        print(board_type_list)
+        # print(board_type_list)
         # print(con.hgetall("2"))
         for board_type in board_type_list:
             board_dic = {}
