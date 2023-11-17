@@ -138,6 +138,8 @@ https://api.bilibili.com/x/web-interface/ranking/v2
 
 ***API演示：***
 
+详细可见文档[PyTopicsApiExplore_Apifox.html](https://github.com/Xuenew/PyTopicsApiExplore/PyTopicsApiExplore_Apifox.html)
+
 - 热榜数据(实时获取，ID以文档的为准)
 ```text
 http://127.0.0.1:5000/board_new?board_type=2&back_format=json
