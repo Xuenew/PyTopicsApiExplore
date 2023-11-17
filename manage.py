@@ -8,12 +8,13 @@ import json
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask_cors import CORS
 from crawls.back_you_want import back_you_want
 from tool import redis_normal_get_now_db  # 获取redis当前的内容
 from tool import get_hot_title_ranking  # 获取榜单位次区间变化
 from tool import Base_Back_Result
 from tool import redis_noremal_gethk_get # 获取key里单独键的value
-from flask_cors import CORS
+from urllib.parse import unquote
 
 app = Flask(__name__)
 CORS(app)
@@ -114,7 +115,7 @@ def board_hot_ranking():
     if hot_type and hot_title:
         # print(hot_title)
         try:
-            Back_Resut["res_inf"] = get_hot_title_ranking(title=hot_title, board_type=hot_type, hours=int(xhours))
+            Back_Resut["res_inf"] = get_hot_title_ranking(title=unquote(hot_title), board_type=hot_type, hours=int(xhours))
         except Exception as e:
             Back_Resut["status"] = -1
             Back_Resut["err_msg"] = str(e)
