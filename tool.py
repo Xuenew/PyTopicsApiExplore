@@ -309,6 +309,32 @@ def redis_noremal_gethk_get(board_type, task_keyname="board_title", db=REDIS_DB[
     return key_name
 
 
+# 获取单独某个key下的某个键值
+def redis_noremal_hash(type_, keyname="", filed="", db=REDIS_DB["db"], amount=1):
+    """
+    :param board_type: 榜单的ID
+    :param task_keyname: 榜单里的key
+    :param db: 默认0
+    :return:
+    """
+    con = redis_normal(db=db)
+    if type_ == "hget":  #  获取某个key下的某个键值
+        info = con.hget(keyname, filed)
+        con.close()
+    if type_ == "hgetall":  #  获取某个key下的所有键值
+        info = con.hgetall(keyname)
+        con.close()
+    if type_ == "hincrby":  # 增加某个字段的值
+        info = con.hincrby(keyname, filed, amount)
+        con.close()
+    if type_ == "hexists":  # 是否存在某个字段
+        info = con.hexists(keyname, filed)
+        con.close()
+
+    con.close()
+    return info
+
+
 # redis 获取当前redis里热榜信息，通过平台表获取
 def redis_normal_get_now_db(db=REDIS_DB["db"], board_type_list: list = None, decode_responses=True):
     """
