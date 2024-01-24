@@ -411,6 +411,7 @@ def get_comment_xiaoyuzhou(eid, loadMoreKey=""):
         'https://car-tesla-api-beta.xiaoyuzhoufm.com/1.0/comment/list-primary-by-hot',
         headers=headers,
         json=json_data,
+        timeout=5
     )
 
     # print(response.text)

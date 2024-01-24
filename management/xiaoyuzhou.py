@@ -56,13 +56,15 @@ def xyz_lucky_html():
     if not token or not episode:  # 没有输入token或者token_type的情况
         Back_Resut["status"] = -1
         Back_Resut["err_msg"] = "请输入正确的token/episode或联系作者xyy"
-        return Back_Resut
+        # return Back_Resut
+        return "请输入正确的token或联系作者xyy"
     if token not in ["65473dd8d4115bf7390d7b12","61bd3d92e1ba7b4ecec1f865"]:
         # 61bd3d92e1ba7b4ecec1f865 野声
         # 65473dd8d4115bf7390d7b12 豆米
         Back_Resut["status"] = -1
         Back_Resut["err_msg"] = "请输入正确的token或联系作者xyy"
-        return Back_Resut
+        # return Back_Resut
+        return "请输入正确的token或联系作者xyy"
     return render_template("xiaoyuzhou/xiaoyuzhou_choujiang_lucky.html",token=token,episode=episode)
 
 
