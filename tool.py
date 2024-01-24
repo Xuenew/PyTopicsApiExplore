@@ -373,7 +373,54 @@ def redis_normal_get_now_db(db=REDIS_DB["db"], board_type_list: list = None, dec
     return result_lis
 
 
+##### 小宇宙
+def get_comment_xiaoyuzhou(eid, loadMoreKey=""):
+
+    headers = {
+        'Host': 'car-tesla-api-beta.xiaoyuzhoufm.com',
+        'Cookie': '[object Undefined]',
+        'x-jike-client-type': 'xyz-weapp',
+        'accept': 'application/json, text/plain, */*',
+        'xweb_xhr': '1',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 MicroMessenger/6.8.0(0x16080000) NetType/WIFI MiniProgramEnv/Mac MacWechat/WMPF MacWechat/3.8.5(0x13080510)XWEB/1100',
+        # 'x-jike-device-id': '726ADEF0-B3BC-4875-89BB-2FFB132FDA85',
+        'content-type': 'application/json',
+        'sec-fetch-site': 'cross-site',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-dest': 'empty',
+        'referer': 'https://servicewechat.com/wx4934a02480acb3d9/2/page-frame.html',
+        'accept-language': 'zh-CN,zh;q=0.9',
+    }
+
+    json_data = {
+        # 'eid': '658ae28eb8fd2bc06012d7f0',
+        # 'eid': '65421f9267c3b425f574e977',
+        'size': 1000, # 可以设置很大
+        # 'loadMoreKey': {
+        #     'direction': 'NEXT',
+        #     'hotSortScore': 0.9512744540953,
+        #     'id': '65a0e7f1152b01025ae0e1ec',
+        # },
+    }
+    if eid:
+        json_data['eid'] = eid
+    if loadMoreKey:
+        json_data['loadMoreKey'] = loadMoreKey
+
+    response = requests.post(
+        'https://car-tesla-api-beta.xiaoyuzhoufm.com/1.0/comment/list-primary-by-hot',
+        headers=headers,
+        json=json_data,
+    )
+
+    # print(response.text)
+    return response
+
+
 if __name__ == "__main__":
+    get_comment_xiaoyuzhou("658ae28eb8fd2bc06012d7f0")
+    exit()
+
     print(redis_noremal_gethk_get(board_type=1, task_keyname="board_title"))
     exit()
 

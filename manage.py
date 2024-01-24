@@ -16,10 +16,12 @@ from tool import Base_Back_Result
 from tool import redis_noremal_gethk_get # 获取key里单独键的value
 from urllib.parse import unquote
 from management.user import user
+from management.xiaoyuzhou import xiaoyuzhou
 
 app = Flask(__name__)
 CORS(app)
 app.register_blueprint(user, url_prefix='/user')
+app.register_blueprint(xiaoyuzhou, url_prefix='/xiaoyuzhou')
 
 @app.route('/')
 def run():
