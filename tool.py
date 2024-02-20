@@ -310,6 +310,19 @@ def redis_noremal_gethk_get(board_type, task_keyname="board_title", db=REDIS_DB[
 
 
 # 获取单独某个key下的某个键值
+def redis_noremal_string_get(task_keyname="board_title", db=REDIS_DB["db"]):
+    """
+    :param task_keyname: 需要取值的key
+    :param db: 默认0
+    :return:
+    """
+    con = redis_normal(db=db)
+    key_result = con.get(task_keyname)
+    con.close()
+    return key_result
+
+
+# 获取单独某个key下的某个键值
 def redis_noremal_hash(type_, keyname="", filed="", db=REDIS_DB["db"], amount=1):
     """
     :param board_type: 榜单的ID

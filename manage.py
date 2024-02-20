@@ -14,6 +14,7 @@ from tool import redis_normal_get_now_db  # 获取redis当前的内容
 from tool import get_hot_title_ranking  # 获取榜单位次区间变化
 from tool import Base_Back_Result
 from tool import redis_noremal_gethk_get # 获取key里单独键的value
+from tool import redis_noremal_string_get # 获取key的值
 from urllib.parse import unquote
 from management.user import user
 from management.xiaoyuzhou import xiaoyuzhou
@@ -134,6 +135,33 @@ def board_hot_ranking():
         board_title = redis_noremal_gethk_get(board_type=hot_type)
         return render_template("index_ranking.html", result=Back_Resut, hot_title=hot_title,
                                board_title=board_title, time_data=[i[1] for i in res], info_data=[i[0] for i in res])
+
+
+@app.route('/board_hot_words', methods=['get', 'post'])  # 返回实时的当前的热点信息从redis
+def board_hot_words():
+    """
+    dayType 传入格式 'now', 'yesterday' 'today'
+    :return:
+    """
+    if request.method == 'POST':
+        dayType = request.form.get("dayType", "now")
+        back_format = request.form.get("back_format", "json")
+    else:
+        dayType = request.form.get("dayType", "now")
+        back_format = request.args.get("back_format", "json")
+
+    Back_Resut = Base_Back_Result.copy()
+
+    if back_format == "json":
+        try:
+            Back_Resut["res_inf"] = redis_noremal_string_get(task_keyname=dayType)
+        except Exception as e:
+            Back_Resut["status"] = -1
+            Back_Resut["err_msg"] = str(e)
+        return json.dumps()
+    else:  # 后续再考虑这里加不加html
+        Back_Resut["status"] = -1
+        Back_Resut["err_msg"] = "暂时这个功能还没有添加html的页面"
 
 
 if __name__ == '__main__':
