@@ -175,7 +175,7 @@ pip install uwsgi
 ```
 - 安装依赖
 ```bash
-/home/temp/env_pytopicsapiexplore/bin/pip install -r /home/temp/PyTopicsApiExplore/rerequirment.txt
+/home/temp/env_pytopicsapiexplore/bin/pip install -r /home/temp/PyTopicsApiExplore/requirment.txt
 ```
 - 初始化数据库 每次热更新也会执行
 ```bash
