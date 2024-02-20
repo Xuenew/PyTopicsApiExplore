@@ -1,6 +1,7 @@
 import datetime
 import json
 import pymysql
+import requests
 
 from crawls.back_you_want import back_you_want
 from tool import mysql_normal
@@ -95,17 +96,64 @@ def get_onboardtime_and_maxindexnum(each_board_type, each_title, each_index):  #
     return max_index_num, onboard_time
 
 
+def save_hotwords_to_redis():  # 保存热词到redis
+    """
+    先用other的替代，后期逐步用自己的分词
+    :return:
+    """
+    con = redis_normal(db=REDIS_DB["db"])
+
+    for dayType in ["now","yesterday","today"]:
+        # print(each)
+        info = get_hotwords(dayType=dayType)
+        con.set(dayType, info.text)
+    con.close()
+
+
+def get_hotwords(dayType="now"):  # 这里先用别人的 （0｜0）
+
+    headers = {
+        'authority': 'www.entobit.cn',
+        'accept': 'application/json, text/plain, */*',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'content-type': 'application/x-www-form-urlencoded',
+        'origin': 'https://www.entobit.cn',
+        'referer': 'https://www.entobit.cn/hot-search/desktop',
+        'sec-ch-ua': '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"macOS"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'type': 'restful',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+    }
+
+    data = {
+        # 'dayType': 'now', 'yesterday' 'today'
+        'dayType': dayType,
+        'dataType': '',
+    }
+
+    response = requests.post('https://www.entobit.cn/trending/top/getHotSearchWordcloud.do', headers=headers, data=data)
+    return response
+
 def run():  # 执行函数
+    save_hotwords_to_redis()  #  保存热榜热词数据到redis
+
     result_list = back_you_want(choose_board_type=0)  # 默认全拿
     # print(result_list)
     get_time_ = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:00") # 执行的当前时间
 
-    save_to_mysql(result_list, get_time_)
-    save_to_redis(result_list, get_time_)
+    save_to_mysql(result_list, get_time_)  # 保存到数据库热榜数据
+    save_to_redis(result_list, get_time_)  # 保存到redis热榜数据 经过计算的热榜数据
+
     delet_to_mysql()  # 定时删除
 
 
 if __name__ == '__main__':
+    # save_hotwords_to_redis()
+    # exit()
     # each_board_type = 1
     # each_title = "出界"
     # each_index = 2
