@@ -45,6 +45,32 @@ MYSQL_TABLE_CREAT_SQL2 = """
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 """
 
+# 创建热榜标题关键词表
+MYSQL_TABLE_CREAT_SQL3 = """
+                        CREATE TABLE `keywords_table` (
+                          `ID` int NOT NULL,
+                          `keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '监控的关键词',
+                          `keywords_hash` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '关键词的hash唯一值',
+                          PRIMARY KEY (`ID`),
+                          UNIQUE KEY `keywords_hash` (`keywords_hash`(32))
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+"""
+
+# 创建用户搜索关键词表
+MYSQL_TABLE_CREAT_SQL4 = """
+                        CREATE TABLE `user_searchkeywords_table` (
+                          `id` int NOT NULL AUTO_INCREMENT,
+                          `uid` int DEFAULT NULL COMMENT '用户ID',
+                          `keyword_id` int DEFAULT NULL COMMENT '关键词的ID md5计算的值',
+                          `start_time` datetime DEFAULT NULL COMMENT '用户对于这个关键词的开始监测时间',
+                          `end_time` datetime DEFAULT NULL COMMENT '用户对于这个关键词的结束监测时间',
+                          `board_type` int DEFAULT NULL COMMENT '对那个平台的监测',
+                          PRIMARY KEY (`id`),
+                          KEY `keyword_id` (`keyword_id`),
+                          CONSTRAINT `user_searchkeywords_table_ibfk_1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords_table` (`ID`)
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+"""
+
 
 def test_mysql():  # 检查系统mysql
     # 查询是否建立了数据库
@@ -80,6 +106,8 @@ def mysql_init():  # 创建mysql部署需要的表和库
     mysql_normal(sql=MYSQL_DATABASE_CREAT_SQL)
     mysql_normal(sql=MYSQL_TABLE_CREAT_SQL1, db=MYSQL_DB["db"])
     mysql_normal(sql=MYSQL_TABLE_CREAT_SQL2, db=MYSQL_DB["db"])
+    mysql_normal(sql=MYSQL_TABLE_CREAT_SQL3, db=MYSQL_DB["db"])
+    mysql_normal(sql=MYSQL_TABLE_CREAT_SQL4, db=MYSQL_DB["db"])
     print("数据库表初始化完成！进行平台数据插入")
 
 
@@ -118,7 +146,7 @@ def board_platform_update():
 def run_init():
     test_mysql()
     test_redis()
-    board_platform_update() # 每次新增了平台
+    board_platform_update()  # 每次新增了平台
 
 
 if __name__ == '__main__':
