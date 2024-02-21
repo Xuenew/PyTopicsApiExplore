@@ -199,6 +199,17 @@ def md5_use(text: str) -> str:
     return result
 
 
+# 获取md5之后的每个字符并计算ASCII码总和
+def md5_ascii_sum(input_string):
+    # 计算MD5值
+    md5_hash = md5(input_string.encode()).hexdigest()
+
+    # 遍历MD5的每个字符并计算ASCII码总和
+    ascii_sum = sum(ord(char) for char in md5_hash)
+
+    return ascii_sum
+
+
 # 获取时间函数
 def get_x_hours_ago(hours, rformat="%Y-%m-%d %H:%M:%S"):
     now = datetime.now()
@@ -494,6 +505,8 @@ def get_comment_xiaoyuzhou(eid, loadMoreKey=""):
 
 
 if __name__ == "__main__":
+    print(md5_ascii_sum("贾玲"))  # b7d672aeeb30c45918420d90a22f5195
+    exit()
     info = get_search_keywords("换贾玲背张小斐",hours=640)
     print(info)
     print(time.time())
