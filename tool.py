@@ -1,8 +1,11 @@
 import json
 import random
+import time
+
 import requests
 import pymysql
 import redis
+from hashlib import md5
 from datetime import timedelta, datetime
 
 from config import proxies
@@ -189,6 +192,13 @@ def get_proxy():
     return proxies
 
 
+# Md5 加密函数 32 返回32位的加密结果
+def md5_use(text: str) -> str:
+    result = md5(bytes(text, encoding="utf-8")).hexdigest()
+    # print(result)
+    return result
+
+
 # 获取时间函数
 def get_x_hours_ago(hours, rformat="%Y-%m-%d %H:%M:%S"):
     now = datetime.now()
@@ -285,6 +295,58 @@ def get_hot_title_ranking(title: str, board_type, hours: int = 24, rformat="%Y-%
     result_lis = [[i[0], i[1].strftime(rformat)] for i in fetchall]
     # print(result_lis)
     return result_lis
+
+
+# 计算关键词搜索的结果 返回可以直接展示的内容
+def count_search_result(result_lis, rformat="%Y-%m-%d %H:%M:%S", ):  # 计算搜索的结果 排序海鸥在榜时间
+    lis_dic = {}
+
+    for each in result_lis:
+        each_md5 = md5_use(each[0]+str(each[2]))  # key 是用标题和榜单的类型进行拼接
+        if each_md5 not in lis_dic:
+            lis_dic[each_md5] = {
+                "title": each[0],
+                "index_num": each[1],
+                "board_type": each[2],
+                "get_time": each[3].strftime(rformat),
+                "id": each[4],  # id是自增的，越大的越靠前
+                "pc_url": each[5],
+                "count": 10
+            }
+        else:  # 这里判断如果出现就进行比较
+            if int(lis_dic[each_md5]["index_num"]) > int(each[1]):  # 如果排名大就替换
+                lis_dic[each_md5]["index_num"] = each[1]
+            elif lis_dic[each_md5]["id"] < each[4]:  # 如果获取时间 通过ID进行判断
+                lis_dic[each_md5]["get_time"] = each[3].strftime(rformat)
+            lis_dic[each_md5]["count"] += 10
+    return list(lis_dic.values())
+
+
+# 获取关键词搜索结果
+def get_search_keywords(keywords: str, board_type=0, hours: int = 24, rformat="%Y-%m-%d %H:%M:%S"):
+    """
+    :param keywords:
+    :param board_type: 榜单的ID 必填
+    :param hours: 默认24小时内
+    :return:
+    """
+    # print(time.time())
+    xtime = get_x_hours_ago(hours=hours)
+    if board_type:
+    # print(xtime)
+        sql = "select title,index_num,board_type,get_time,id,pc_url from {} where title like %s and get_time>%s and board_type=%s".format(MYSQL_DB["info_table_name"])
+        fetchall = mysql_normal(sql, method="fetchall", db=MYSQL_DB["db"], sql_list=(
+                                                            pymysql.converters.escape_string('%'+keywords+'%'),
+                                                            pymysql.converters.escape_string(xtime),
+                                                            board_type))
+
+    else:
+        sql = "select title,index_num,board_type,get_time,id,pc_url from {} where title like %s and get_time>%s".format(MYSQL_DB["info_table_name"])
+        fetchall = mysql_normal(sql,method="fetchall", db=MYSQL_DB["db"], sql_list=(
+                                                            pymysql.converters.escape_string('%'+keywords+'%'),
+                                                            pymysql.converters.escape_string(xtime)))
+    # print(fetchall)
+    return count_search_result(fetchall)
 
 
 # redis 存储
@@ -432,6 +494,10 @@ def get_comment_xiaoyuzhou(eid, loadMoreKey=""):
 
 
 if __name__ == "__main__":
+    info = get_search_keywords("换贾玲背张小斐",hours=640)
+    print(info)
+    print(time.time())
+    exit()
     get_comment_xiaoyuzhou("658ae28eb8fd2bc06012d7f0")
     exit()
 

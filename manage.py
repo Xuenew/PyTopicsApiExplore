@@ -15,9 +15,11 @@ from tool import get_hot_title_ranking  # 获取榜单位次区间变化
 from tool import Base_Back_Result
 from tool import redis_noremal_gethk_get # 获取key里单独键的value
 from tool import redis_noremal_string_get # 获取key的值
+from tool import get_search_keywords # 通过关键词搜索获取结果
 from urllib.parse import unquote
 from management.user import user
 from management.xiaoyuzhou import xiaoyuzhou
+from config import HOT_FUNCTION_UNIT
 
 app = Flask(__name__)
 CORS(app)
@@ -137,7 +139,7 @@ def board_hot_ranking():
                                board_title=board_title, time_data=[i[1] for i in res], info_data=[i[0] for i in res])
 
 
-@app.route('/board_hot_words', methods=['get', 'post'])  # 返回实时的当前的热点信息从redis
+@app.route('/board_hot_words', methods=['get', 'post'])  # 返回热词的接口
 def board_hot_words():
     """
     dayType 传入格式 'now', 'yesterday' 'today'
@@ -147,7 +149,7 @@ def board_hot_words():
         dayType = request.form.get("dayType", "now")
         back_format = request.form.get("back_format", "json")
     else:
-        dayType = request.form.get("dayType", "now")
+        dayType = request.args.get("dayType", "now")
         back_format = request.args.get("back_format", "json")
 
     Back_Resut = Base_Back_Result.copy()
@@ -158,7 +160,67 @@ def board_hot_words():
         except Exception as e:
             Back_Resut["status"] = -1
             Back_Resut["err_msg"] = str(e)
-        return json.dumps()
+        return json.dumps(Back_Resut)
+    else:  # 后续再考虑这里加不加html
+        Back_Resut["status"] = -1
+        Back_Resut["err_msg"] = "暂时这个功能还没有添加html的页面"
+
+
+@app.route('/board_keywords_search', methods=['get', 'post'])  # 通过关键词返回搜索的结果
+def board_keywords_search():
+    """
+    :keywords 传入格式 "热辣滚烫"
+    :board_type 传入格式 '1' 默认0 全部
+    :hours 传入小时 12 代表12小时内
+    :return:
+    """
+    if request.method == 'POST':
+        keywords = request.form.get("keywords", "djn")
+        board_type = request.form.get("board_type", 0)
+        hours = request.form.get("hours", 7)
+        back_format = request.form.get("back_format", "json")
+    else:
+        keywords = request.args.get("keywords", "djn")
+        board_type = request.args.get("board_type", 0)
+        hours = request.args.get("hours", 7)
+        back_format = request.args.get("back_format", "json")
+
+    Back_Resut = Base_Back_Result.copy()
+
+    if back_format == "json":
+        try:
+            Back_Resut["res_inf"] = get_search_keywords(keywords=keywords, board_type=int(board_type), hours=int(hours))
+        except Exception as e:
+            Back_Resut["status"] = -1
+            Back_Resut["err_msg"] = str(e)
+        return json.dumps(Back_Resut)
+    else:  # 后续再考虑这里加不加html
+        Back_Resut["status"] = -1
+        Back_Resut["err_msg"] = "暂时这个功能还没有添加html的页面"
+
+
+@app.route('/board_allname', methods=['get', 'post'])  # 返回所有榜单列表
+def board_allname():
+    """
+    dayType 传入格式 'now', 'yesterday' 'today'
+    :return:
+    """
+    if request.method == 'POST':
+        back_format = request.form.get("back_format", "json")
+    else:
+        back_format = request.args.get("back_format", "json")
+
+    Back_Resut = Base_Back_Result.copy()
+
+    if back_format == "json":
+        try:
+            Back_Resut["res_inf"] = [{"board_type": i["board_type"], "board_title": i["board_title"],
+                                      "board_subtitle": i["board_subtitle"]}
+                                     for i in HOT_FUNCTION_UNIT if i["board_status"]==1]
+        except Exception as e:
+            Back_Resut["status"] = -1
+            Back_Resut["err_msg"] = str(e)
+        return json.dumps(Back_Resut)
     else:  # 后续再考虑这里加不加html
         Back_Resut["status"] = -1
         Back_Resut["err_msg"] = "暂时这个功能还没有添加html的页面"
