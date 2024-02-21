@@ -148,6 +148,8 @@ HOT_FUNCTION_UNIT = [
 
 # 定时删除的时间
 DELETE_TIME_DAYS = 15 * 24
+# 定时任务的执行间隔，用于计算，实际控制在crontab中设置
+CRONTAB_DELAY_ = 10
 
 PROXIES = {
             # 代理IP和端口

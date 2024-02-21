@@ -9,14 +9,14 @@ from tool import redis_normal
 from tool import get_x_hours_ago
 from config import MYSQL_DB
 from config import REDIS_DB
-from config import DELETE_TIME_DAYS
+from config import DELETE_TIME_DAYS  # 用于定时执行删除库操作
+from config import CRONTAB_DELAY_  # 用于计算间隔算在榜时间
 from retrying import retry
 
 """
 10分钟更新一次
 """
 
-_DELAY_ = 10  # 10分钟的间隔 用于计算在榜时间，如果改了时间要改这里
 
 def save_to_mysql(result_list,get_time_):  # 保存到数据库
 
@@ -88,10 +88,10 @@ def get_onboardtime_and_maxindexnum(each_board_type, each_title, each_index):  #
     # print(all_result_index[0])
     if all_result_index:
         max_index_num = all_result_index[0][0]
-        onboard_time = _DELAY_ * len(all_result_index)
+        onboard_time = CRONTAB_DELAY_ * len(all_result_index)
     else:  # 没有查询的情况就是第一次出现就是10分钟的在榜时间 和最高排次
         max_index_num = each_index
-        onboard_time = _DELAY_
+        onboard_time = CRONTAB_DELAY_
 
     return max_index_num, onboard_time
 
