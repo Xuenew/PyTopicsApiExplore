@@ -180,6 +180,7 @@ REDIS_DB = {
             "passwd": "123456",
             "db": "0",
             "keyname_HotBoardAllNew": "HotBoardAllNew",
+            "user_needs_monitor": "user_needs_monitor",  # 用户需要监控的内容存储的地方 list
             }
 
 proxy = "http://%(user)s:%(pass)s@%(host)s:%(port)s" % {

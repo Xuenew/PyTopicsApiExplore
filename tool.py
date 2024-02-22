@@ -308,6 +308,19 @@ def get_hot_title_ranking(title: str, board_type, hours: int = 24, rformat="%Y-%
     return result_lis
 
 
+def get_min_time(time_strings_lis: list, rformat="%Y-%m-%d %H:%M:%S"):  # 给一个时间列表 返回时间中最早的时间
+    # 将字符串转换为datetime对象
+    datetime_objects = [datetime.strptime(time_str, rformat) for time_str in time_strings_lis]
+
+    # 对列表进行排序
+    # sorted_times = sorted(datetime_objects)
+
+    # 找到最早的时间
+    earliest_time = min(datetime_objects)
+
+    return earliest_time.strftime(rformat)
+
+
 # 计算关键词搜索的结果 返回可以直接展示的内容
 def count_search_result(result_lis, rformat="%Y-%m-%d %H:%M:%S", ):  # 计算搜索的结果 排序海鸥在榜时间
     lis_dic = {}
@@ -505,8 +518,8 @@ def get_comment_xiaoyuzhou(eid, loadMoreKey=""):
 
 
 if __name__ == "__main__":
-    print(md5_use("春运"))  # b7d672aeeb30c45918420d90a22f5195
-    print(md5_ascii_sum("春运"))  # b7d672aeeb30c45918420d90a22f5195
+    print(md5_use("沥心沙"))  # b7d672aeeb30c45918420d90a22f5195
+    print(md5_ascii_sum("沥心沙"))  # b7d672aeeb30c45918420d90a22f5195
     exit()
     info = get_search_keywords("换贾玲背张小斐",hours=640)
     print(info)
