@@ -505,7 +505,8 @@ def get_comment_xiaoyuzhou(eid, loadMoreKey=""):
 
 
 if __name__ == "__main__":
-    print(md5_ascii_sum("贾玲"))  # b7d672aeeb30c45918420d90a22f5195
+    print(md5_use("春运"))  # b7d672aeeb30c45918420d90a22f5195
+    print(md5_ascii_sum("春运"))  # b7d672aeeb30c45918420d90a22f5195
     exit()
     info = get_search_keywords("换贾玲背张小斐",hours=640)
     print(info)

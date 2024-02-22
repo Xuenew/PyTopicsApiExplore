@@ -66,10 +66,11 @@ MYSQL_TABLE_CREAT_SQL4 = """
                           `end_time` datetime DEFAULT NULL COMMENT '用户对于这个关键词的结束监测时间',
                           `board_type` int DEFAULT NULL COMMENT '对那个平台的监测',
                           PRIMARY KEY (`id`),
+                          UNIQUE KEY `uid` (`uid`,`keyword_id`,`board_type`),
                           KEY `keyword_id` (`keyword_id`),
                           KEY `结束时间排序` (`end_time`),
                           CONSTRAINT `user_searchkeywords_table_ibfk_1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords_table` (`ID`)
-                        ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 """
 
 

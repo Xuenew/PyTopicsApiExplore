@@ -165,7 +165,8 @@ MYSQL_DB = {
             "port": 3306,
             "user": "root",
             "passwd": "123456",
-            "db": "test",
+            "db": "hot_board",  # 关于热榜数据/平台名称/监控关键词的库
+            "db_userboard": "board_author_",  # 用户监控的信息存储的库
             "charset": "utf8",
             "keywords_table": "keywords_table",  # 存储监控关键词的表
             "user_searchkeywords_table": "user_searchkeywords_table",  # 存储用户监控关键词的表和keywords_table外键链接
