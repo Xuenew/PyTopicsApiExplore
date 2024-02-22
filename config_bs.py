@@ -167,6 +167,8 @@ MYSQL_DB = {
             "passwd": "123456",
             "db": "test",
             "charset": "utf8",
+            "keywords_table": "keywords_table",  # 存储监控关键词的表
+            "user_searchkeywords_table": "user_searchkeywords_table",  # 存储用户监控关键词的表和keywords_table外键链接
             "info_table_name": "board_info",  # 存储热榜内容
             "platform_table_name": "board_platform",  # 存储热榜平台信息
             }

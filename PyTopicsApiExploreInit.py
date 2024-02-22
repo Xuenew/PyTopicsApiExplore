@@ -67,8 +67,9 @@ MYSQL_TABLE_CREAT_SQL4 = """
                           `board_type` int DEFAULT NULL COMMENT '对那个平台的监测',
                           PRIMARY KEY (`id`),
                           KEY `keyword_id` (`keyword_id`),
+                          KEY `结束时间排序` (`end_time`),
                           CONSTRAINT `user_searchkeywords_table_ibfk_1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords_table` (`ID`)
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+                        ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 """
 
 
