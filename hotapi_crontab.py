@@ -78,7 +78,7 @@ def save_to_redis(result_list, get_time_):  # 保存到redis
 
     for each in result_list["result_info"]:
         save_to_redis_need_list = save_to_redis_need(each["result"], each, get_time_)
-        # print(each)
+        # print(save_to_redis_need_list)
         data = {
             "get_time_": get_time_,
             "board_type": each["board_type"],
@@ -93,7 +93,7 @@ def save_to_redis(result_list, get_time_):  # 保存到redis
                 for each_needs_searchkeywords in needs_searchkeywords[str(each["board_type"])]:
                     if needs_searchkeywords[str(each["board_type"])][each_needs_searchkeywords]["keywords"] in each_result["title"]:
                         each_result["board_type"] = each["board_type"]
-                        each_result["get_time_"] = each["get_time_"]
+                        each_result["get_time_"] = get_time_
                         each_result["uid_needs"] = needs_searchkeywords[str(each["board_type"])][each_needs_searchkeywords]["ulist"]
                         # user_need_save_list.append(each_result)
                         con.lpush(REDIS_DB["user_needs_monitor"], json.dumps(each_result))
@@ -134,7 +134,7 @@ def get_search_keywordsinfo_frommysql(get_time_):  # 从数据表里获取要执
 
 
 @retry(stop_max_attempt_number=3,wait_fixed=200)
-def get_onboardtime_and_maxindexnum(each_board_type, each_title, each_index, get_time_):  # 获取数据库中每一条的在榜时间
+def get_onboardtime_and_maxindexnum(each_board_type, each_title, each_index, get_time_, rformat="%Y-%m-%d %H:%M:%S"):  # 获取数据库中每一条的在榜时间
     # "select index_num from board_info where board_type=1 and title='出界就死' ORDER BY index_num ASC"  # 测试的例子
     sql = "select index_num,get_time from {} where board_type=%s and title=%s ORDER BY index_num ASC".format(MYSQL_DB["info_table_name"])
     all_result_index = mysql_normal(sql=sql, method="fetchall", db=MYSQL_DB["db"],sql_list=tuple([each_board_type, each_title]))
@@ -142,7 +142,7 @@ def get_onboardtime_and_maxindexnum(each_board_type, each_title, each_index, get
     if all_result_index:
         max_index_num = all_result_index[0][0]
         onboard_time = CRONTAB_DELAY_ * len(all_result_index) + random.choice(range(1, CRONTAB_DELAY_))  # 添加一个随机时间
-        first_onboard_time = min([i[1] for i in all_result_index])
+        first_onboard_time = min([i[1] for i in all_result_index]).strftime(rformat)
     else:  # 没有查询的情况就是第一次出现就是10分钟的在榜时间 和最高排次
         max_index_num = each_index
         onboard_time = CRONTAB_DELAY_ + random.choice(range(1, CRONTAB_DELAY_))  # 添加一个随机时间显得不那么生硬 随机时间通过配置文件来
