@@ -57,12 +57,16 @@ def save_to_redis_need(result: list, each_boardinfo: dict, get_time_: str):  # �
         dic["url"] = each["url"]
         try:
             # 获取最大的排位次和在榜的总时间
-            max_index_num, onboard_time, first_onboard_time = get_onboardtime_and_maxindexnum(
+            max_index_num, onboard_time, first_onboard_time, max_index_num_time, first_onboard_num = get_onboardtime_and_maxindexnum(
                                                 each_boardinfo["board_type"], each["title"], each["index"], get_time_)
             dic["max_index_num"] = max_index_num
+            dic["max_index_num_time"] = max_index_num_time
             dic["onboard_time"] = onboard_time
             dic["first_onboard_time"] = first_onboard_time
+            dic["first_onboard_num"] = first_onboard_num
         except Exception as e:
+            dic["max_index_num_time"] = ""
+            dic["first_onboard_num"] = ""
             dic["max_index_num"] = ""
             dic["onboard_time"] = ""
             dic["first_onboard_time"] = ""
@@ -141,13 +145,17 @@ def get_onboardtime_and_maxindexnum(each_board_type, each_title, each_index, get
     # print(all_result_index[0])
     if all_result_index:
         max_index_num = all_result_index[0][0]
+        max_index_num_time = all_result_index[0][1]  # 最高排次的时间
         onboard_time = CRONTAB_DELAY_ * len(all_result_index) + random.choice(range(1, CRONTAB_DELAY_))  # 添加一个随机时间
         first_onboard_time = min([i[1] for i in all_result_index]).strftime(rformat)
+        first_onboard_num = [i for i in all_result_index if i[1].strftime(rformat) == first_onboard_time][0][0]
     else:  # 没有查询的情况就是第一次出现就是10分钟的在榜时间 和最高排次
         max_index_num = each_index
+        max_index_num_time = get_time_  # 最高排次的时间 这里可能时间都是整数，后续再说
         onboard_time = CRONTAB_DELAY_ + random.choice(range(1, CRONTAB_DELAY_))  # 添加一个随机时间显得不那么生硬 随机时间通过配置文件来
         first_onboard_time = get_time_  # 没有查到的话第一次就是获取时间
-    return max_index_num, onboard_time, first_onboard_time
+        first_onboard_num = each_index  # 没有查到的话第一次的排名就是
+    return max_index_num, onboard_time, first_onboard_time, max_index_num_time, first_onboard_num
 
 
 def save_hotwords_to_redis():  # 保存热词到redis
