@@ -158,7 +158,7 @@ def get_onboardtime_and_maxindexnum(each_board_type, each_title, each_index, get
         first_onboard_num = [i for i in all_result_index if i[1].strftime(rformat) == first_onboard_time][0][0]
 
         # 上一次的位次 作为排名的升降依据
-        last_index_num_time = datetime_objects_list[-1].strftime(rformat)  # 通过排序做的时间
+        last_index_num_time = datetime_objects_list[-2].strftime(rformat)  # 通过排序做的时间 先存储的所以要取倒数第二个
         last_index_num = [i for i in all_result_index if i[1].strftime(rformat) == last_index_num_time][0][0]
     else:  # 没有查询的情况就是第一次出现就是10分钟的在榜时间 和最高排次
         max_index_num = each_index
