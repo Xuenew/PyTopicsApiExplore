@@ -145,7 +145,7 @@ def get_onboardtime_and_maxindexnum(each_board_type, each_title, each_index, get
     # print(all_result_index[0])
     if all_result_index:
         max_index_num = all_result_index[0][0]
-        max_index_num_time = all_result_index[0][1]  # 最高排次的时间
+        max_index_num_time = all_result_index[0][1].strftime(rformat)  # 最高排次的时间
         onboard_time = CRONTAB_DELAY_ * len(all_result_index) + random.choice(range(1, CRONTAB_DELAY_))  # 添加一个随机时间
         first_onboard_time = min([i[1] for i in all_result_index]).strftime(rformat)
         first_onboard_num = [i for i in all_result_index if i[1].strftime(rformat) == first_onboard_time][0][0]
