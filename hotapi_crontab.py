@@ -102,7 +102,8 @@ def save_to_redis(result_list, get_time_):  # 保存到redis
                     if needs_searchkeywords[str(each["board_type"])][each_needs_searchkeywords]["keywords"] in each_result["title"]:
                         each_result["board_type"] = each["board_type"]
                         each_result["get_time_"] = get_time_
-                        each_result["uid_needs"] = needs_searchkeywords[str(each["board_type"])][each_needs_searchkeywords]["ulist"]
+                        each_result["uid_needs"] = needs_searchkeywords[str(each["board_type"])][each_needs_searchkeywords]["ulist"]  # 需要的用户list
+                        each_result["search_keyid"] = needs_searchkeywords[str(each["board_type"])][each_needs_searchkeywords]["keywords_id"]  # 存储对应的搜索关键词对应的ID在表里
                         # user_need_save_list.append(each_result)
                         con.lpush(REDIS_DB["user_needs_monitor"], json.dumps(each_result))
     con.close()
@@ -119,7 +120,7 @@ def get_search_keywordsinfo_frommysql(get_time_):  # 从数据表里获取要执
     """
     all_result_index_dic = {}
 
-    sql = "SELECT {user_searchkeywords_table}.uid, {user_searchkeywords_table}.board_type, {keywords_table}.keywords FROM {user_searchkeywords_table} JOIN {keywords_table} ON {user_searchkeywords_table}.keyword_id = {keywords_table}.ID where end_time>%s;".format(
+    sql = "SELECT {user_searchkeywords_table}.uid, {user_searchkeywords_table}.board_type, {keywords_table}.keywords, {keywords_table}.ID FROM {user_searchkeywords_table} JOIN {keywords_table} ON {user_searchkeywords_table}.keyword_id = {keywords_table}.ID where end_time>%s;".format(
         user_searchkeywords_table=MYSQL_DB["user_searchkeywords_table"],
         keywords_table=MYSQL_DB["keywords_table"]
     )
@@ -130,11 +131,11 @@ def get_search_keywordsinfo_frommysql(get_time_):  # 从数据表里获取要执
     for each in all_result_index:
         keyword_md5_use = md5_use(each[2])
         if str(each[1]) not in all_result_index_dic:  # 如果这个平台还没有就添加key
-            all_result_index_dic[str(each[1])] = {keyword_md5_use: {"ulist": [each[0]], "keywords": each[2]}}
+            all_result_index_dic[str(each[1])] = {keyword_md5_use: {"ulist": [each[0]], "keywords": each[2], "keywords_id":each[3]}}
         else:  # 平台已经有的话就添加value 判断关键词在不在
 
             if keyword_md5_use not in all_result_index_dic[str(each[1])]:
-                all_result_index_dic[str(each[1])][keyword_md5_use] = {"ulist": [each[0]], "keywords": each[2]}
+                all_result_index_dic[str(each[1])][keyword_md5_use] = {"ulist": [each[0]], "keywords": each[2], "keywords_id":each[3]}
             else:
                 all_result_index_dic[str(each[1])][keyword_md5_use]["ulist"].append(each[0])
     # print(all_result_index_dic)
